@@ -12,7 +12,15 @@
             </intent-filter>
         </activity>
 
-    </application>
+    <service android:name=".PeriodicCheckService"><intent-filter><action android:name="com.villainrom.otaupdate.PERIODIC_CHECK"></action>
+<category android:name="android.intent.category.DEFAULT"></category>
+</intent-filter>
+</service>
+<receiver android:name=".ServiceLaunchReceiver"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"></action>
+</intent-filter>
+</receiver>
+</application>
     <uses-sdk android:minSdkVersion="7" />
 
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 </manifest> 
