@@ -16,34 +16,32 @@ can be installed on multiple ROMs.
 Desctiprion of file
 ===================
 
-The updates are expressed in a XML file, with
-the following structure:
+The updates are expressed in a XML file, with the following structure:
 
-/entries/entry*
+/updates/update*
 
-where each entry contains
+where each update contains
 
-/name = name of update
-/description = description of update to show to user
-/url = url to download the update from.
-/dependencies?
+/name           name of update
+/description    description of update to show to user
+/url            url to download the update from
+/dependencies?  list of dependencies
 
 where each dependency contains
 
-/dependency = name of update that must be applied before this update is
-offered.
+/dependency     name of update that must be applied first
 
 Complete example file:
 
-<entries>
-  <entry>
+<updatess>
+  <update>
     <name>Update1.zip</name>
     <desctiprion>
       First OTA update description here.
     </desctiprion>
     <url>http://villainrom.co.uk/ota/froyd-1.1.1/Update1.zip</url>
-  </entry>
-  <entry>
+  </update>
+  <update>
     <name>Update2.zip</name>
     <desctiprion>
       Second OTA update description here.
@@ -52,8 +50,8 @@ Complete example file:
     <dependencies>
         <dependency>Update1.zip</dependency>
     </dependencies>
-  </entry>
-</entries>
+  </update>
+</updates>
 
 So, to recap: two updates, Update1.zip, Update2.zip. The Update2.zip can
 only be installed after Update1.zip has been installed.
@@ -69,6 +67,11 @@ Description of the application UI
 The application displays the list of updates available, and if requested by
 user, downloads and installs some of them. The application must exclude from
 list those updates that have already been installed.
+
+If the update has dependencies that are not met, the "Apply" button will be
+disabled. In that case, the desctiprion will be modified and the list of the
+updates that must be applied first will be prepended to the supplied user
+desctiprion.
 
 Update file format
 ==================
