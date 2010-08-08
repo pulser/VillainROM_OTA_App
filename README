@@ -1,0 +1,24 @@
+This is the VillainROM (HTC Hero aftermarket ROM)
+over-the-air (OTA) update application.
+
+It consists of a service and a GUI. The service
+periodically checks that updates are available, and
+puts a notification for user.
+
+The application displays the list of updates
+available, and updates them. We support two
+kinds of update formats:
+
+- *.zip is the classic com.google.android.update-script
+  based update, and is applied via reboot to recovery.
+
+- *.ota is a zip package which contains instructions
+  on how to apply it online. The zip is decompressed
+  somewhere, and the package structure contains a
+  update.sh at its root, which gets executed.
+
+  If the update.sh exits with return code 0, it
+  has been successfully applied. Any other return
+  code means failure. For this reason, update scripts
+  should preferably start with "set -e" to make them
+  abort on first error.
