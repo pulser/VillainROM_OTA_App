@@ -36,16 +36,16 @@ Complete example file:
 <updatess>
   <update>
     <name>Update1.zip</name>
-    <desctiprion>
+    <description>
       First OTA update description here.
-    </desctiprion>
+    </description>
     <url>http://villainrom.co.uk/ota/froyd-1.1.1/Update1.zip</url>
   </update>
   <update>
     <name>Update2.zip</name>
-    <desctiprion>
+    <description>
       Second OTA update description here.
-    </desctiprion>
+    </description>
     <url>http://villainrom.co.uk/ota/froyd-1.1.1/Update2.zip</url>
     <dependencies>
         <dependency>Update1.zip</dependency>
@@ -61,7 +61,7 @@ Description of the application UI
 
 [ Name of update ]  [ Apply ]
 
-[ long textarea desctiprion ]
+[ long textarea description ]
   of the application        ]
 
 The application displays the list of updates available, and if requested by
@@ -69,9 +69,9 @@ user, downloads and installs some of them. The application must exclude from
 list those updates that have already been installed.
 
 If the update has dependencies that are not met, the "Apply" button will be
-disabled. In that case, the desctiprion will be modified and the list of the
+disabled. In that case, the description will be modified and the list of the
 updates that must be applied first will be prepended to the supplied user
-desctiprion.
+description.
 
 Update file format
 ==================
