@@ -13,7 +13,7 @@ best to somehow discover the name of the OS installed (e.g. FroydVillain 1.1.1)
 and put that into the URL as the last component, so that the same otaupdate.apk
 can be installed on multiple ROMs.
 
-Desctiprion of file
+Description of file
 ===================
 
 The updates are expressed in a XML file, with the following structure:
@@ -29,7 +29,7 @@ where each update contains
 
 where each dependency contains
 
-/dependency     name of update that must be applied first
+/update         name of update that must be applied first.
 
 Complete example file:
 
@@ -48,7 +48,7 @@ Complete example file:
     </description>
     <url>http://villainrom.co.uk/ota/froyd-1.1.1/Update2.zip</url>
     <dependencies>
-        <dependency>Update1.zip</dependency>
+        <update>Update1.zip</update>
     </dependencies>
   </update>
 </updates>
@@ -62,16 +62,16 @@ Description of the application UI
 [ Name of update ]  [ Apply ]
 
 [ long textarea description ]
-  of the application        ]
+[ of the update             ]
 
 The application displays the list of updates available, and if requested by
-user, downloads and installs some of them. The application must exclude from
-list those updates that have already been installed.
+user, downloads and installs some of them. The application must exclude the
+updates which have already been installed.
 
-If the update has dependencies that are not met, the "Apply" button will be
-disabled. In that case, the description will be modified and the list of the
-updates that must be applied first will be prepended to the supplied user
-description.
+If an update's has dependencies are not met, the "Apply" button will be
+disabled. In that case, the description will be modified by the application,
+and the list of the updates that must be applied first will be prepended to
+the real desctiprion of the update.
 
 Update file format
 ==================
