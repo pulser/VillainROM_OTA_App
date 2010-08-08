@@ -1,13 +1,79 @@
-This is the VillainROM (HTC Hero aftermarket ROM)
-over-the-air (OTA) update application.
+Background
+==========
 
-It consists of a service and a GUI. The service
-periodically checks that updates are available, and
-puts a notification for user.
+This is the VillainROM (HTC Hero aftermarket ROM) over-the-air (OTA) update
+application.
 
-The application displays the list of updates
-available, and updates them. We support two
-kinds of update formats:
+It consists of a service and a GUI. The service periodically checks that
+updates are available, and puts a notification for user.
+
+The URL to download the updates from will be of general format
+http://hostname/ROM-NAME-HERE.xml.  We can hardcode the URL, but it would be
+best to somehow discover the name of the OS installed (e.g. FroydVillain 1.1.1)
+and put that into the URL as the last component, so that the same otaupdate.apk
+can be installed on multiple ROMs.
+
+Desctiprion of file
+===================
+
+The updates are expressed in a XML file, with
+the following structure:
+
+/entries/entry*
+
+where each entry contains
+
+/name = name of update
+/description = description of update to show to user
+/url = url to download the update from.
+/dependencies?
+
+where each dependency contains
+
+/dependency = name of update that must be applied before this update is
+offered.
+
+Complete example file:
+
+<entries>
+  <entry>
+    <name>Update1.zip</name>
+    <desctiprion>
+      First OTA update description here.
+    </desctiprion>
+    <url>http://villainrom.co.uk/ota/froyd-1.1.1/Update1.zip</url>
+  </entry>
+  <entry>
+    <name>Update2.zip</name>
+    <desctiprion>
+      Second OTA update description here.
+    </desctiprion>
+    <url>http://villainrom.co.uk/ota/froyd-1.1.1/Update2.zip</url>
+    <dependencies>
+        <dependency>Update1.zip</dependency>
+    </dependencies>
+  </entry>
+</entries>
+
+So, to recap: two updates, Update1.zip, Update2.zip. The Update2.zip can
+only be installed after Update1.zip has been installed.
+
+Description of the application UI
+=================================
+
+[ Name of update ]  [ Apply ]
+
+[ long textarea desctiprion ]
+  of the application        ]
+
+The application displays the list of updates available, and if requested by
+user, downloads and installs some of them. The application must exclude from
+list those updates that have already been installed.
+
+Update file format
+==================
+
+We support two kinds of update formats:
 
 - *.zip is the classic com.google.android.update-script
   based update, and is applied via reboot to recovery.
@@ -23,3 +89,6 @@ kinds of update formats:
   should preferably start with "set -e" to make them
   abort on first error.
 
+- After updates have been applied, the log of applied
+  updates will be permanently stored in /system/otaupdate
+  directory.
