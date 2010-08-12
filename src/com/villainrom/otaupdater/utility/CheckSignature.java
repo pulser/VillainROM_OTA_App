@@ -32,8 +32,9 @@ public class CheckSignature {
 	 * @param jarFile File to validate
 	 * @return true on success
 	 * @throws IOException
+	 * @throws SecurityException
 	 */
-	public boolean isValid(File jarFile) throws IOException {
+	public void validateZip(File jarFile) throws IOException, SecurityException {
 		JarFile jar = new JarFile(jarFile);
 		Enumeration<JarEntry> entries = jar.entries();
 		while (entries.hasMoreElements()) {
@@ -49,7 +50,7 @@ public class CheckSignature {
 			
 			/* The exceptions that don't need to be signed either. */
 			String name = je.getName();
-			if (name.equals("/META-INF/CERT.RSA") || name.equals("/META-INF/CERT.SF")) {
+			if (name.equals("/META-INF/CERT.RSA")) {
 				continue;
 			}
 
@@ -58,12 +59,12 @@ public class CheckSignature {
 
 			/* Validate that we trust the certificate used to sign the file. */
 			Certificate[] certs = je.getCertificates();
-			if (! validateCertificate(certs)) {
-				return false;
+			try {
+				validateCertificate(certs);
+			} catch (SecurityException e) {
+				throw new SecurityException("Signature failed on: " + name, e);
 			}
 		}
-		
-		return true;
 	}
 
 	/**
@@ -74,19 +75,17 @@ public class CheckSignature {
 	 * 
 	 * @return true if valid
 	 */
-	private boolean validateCertificate(Certificate[] certs) {
+	private void validateCertificate(Certificate[] certs) throws SecurityException {
 		if (certs == null) {
-			return false;
+			throw new SecurityException("No certificates found");
 		}
 
 		if (certs.length != 1) {
-			return false;
+			throw new SecurityException("Only 1 certificate expected, now has: " + certs.length);
 		}
 
 		if (! certs[0].equals(trustAnchor)) {
-			return false;
+			throw new SecurityException("File not signed by our certificate, but by: " + certs[0]);
 		}
-		
-		return true;
 	}
 }
