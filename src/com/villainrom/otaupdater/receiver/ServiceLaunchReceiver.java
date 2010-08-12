@@ -1,4 +1,4 @@
-package com.villainrom.otaupdater;
+package com.villainrom.otaupdater.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.content.Intent;
  * 
  * @author alankila
  */
-public class BootCompletedReceiver extends BroadcastReceiver {
+public class ServiceLaunchReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		context.startService(new Intent("com.villainrom.otaupdate.PERIODIC_CHECK"));

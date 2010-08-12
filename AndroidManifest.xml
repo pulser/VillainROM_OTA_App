@@ -4,19 +4,18 @@
       android:versionCode="1"
       android:versionName="1.0">
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".UpdateActivity"
-                  android:label="@string/app_name">
+        <activity android:label="@string/app_name" android:name=".activity.UpdateActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-    <service android:name=".PeriodicCheckService"><intent-filter><action android:name="com.villainrom.otaupdate.PERIODIC_CHECK"></action>
+    <service android:name=".service.PeriodicCheckService"><intent-filter><action android:name="com.villainrom.otaupdate.PERIODIC_CHECK"></action>
 <category android:name="android.intent.category.DEFAULT"></category>
 </intent-filter>
 </service>
-<receiver android:name=".ServiceLaunchReceiver"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"></action>
+<receiver android:name=".receiver.ServiceLaunchReceiver"><intent-filter><action android:name="android.intent.action.BOOT_COMPLETED"></action>
 </intent-filter>
 </receiver>
 </application>

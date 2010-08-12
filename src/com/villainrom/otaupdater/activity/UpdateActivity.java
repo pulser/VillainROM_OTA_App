@@ -1,4 +1,7 @@
-package com.villainrom.otaupdater;
+package com.villainrom.otaupdater.activity;
+
+import com.villainrom.otaupdater.R;
+import com.villainrom.otaupdater.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;

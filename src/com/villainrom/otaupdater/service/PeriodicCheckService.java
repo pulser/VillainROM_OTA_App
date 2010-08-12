@@ -1,4 +1,4 @@
-package com.villainrom.otaupdater;
+package com.villainrom.otaupdater.service;
 
 import android.app.Service;
 import android.content.Intent;
