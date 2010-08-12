@@ -12,6 +12,6 @@ import android.content.Intent;
 public class BootCompletedReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		context.startService(new Intent("com.villainrom.otaupdate.PERIODIC_CHECK"));
+		context.startService(new Intent("com.villainrom.otaupdater.PERIODIC_CHECK"));
 	}
 }

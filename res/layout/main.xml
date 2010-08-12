@@ -2,15 +2,15 @@
 <RelativeLayout
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
-xmlns:android="http://schemas.android.com/apk/res/android"
->
+xmlns:android="http://schemas.android.com/apk/res/android" android:padding="4sp">
 
 
-<Spinner
-android:layout_alignParentLeft="true"
-android:layout_height="wrap_content" android:id="@+id/update" android:layout_width="fill_parent" android:layout_toLeftOf="@+id/apply">
-</Spinner><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Apply" android:id="@+id/apply" android:layout_alignParentRight="true">
-</Button><TextView android:layout_alignParentLeft="true" android:layout_height="fill_parent" android:layout_width="fill_parent" android:id="@+id/description" android:text="Desctiprion of update here" android:layout_below="@+id/update" android:padding="4sp">
-</TextView>
 
+
+<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Welcome to VillainROM updater" android:id="@+id/Heading" android:textSize="20px"></TextView>
+<TableLayout android:layout_height="wrap_content" android:id="@+id/LastCheck" android:layout_below="@+id/Heading" android:layout_width="fill_parent" android:layout_marginTop="10sp"><TableRow android:layout_height="wrap_content" android:layout_width="fill_parent"><TextView android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_weight="0.1" android:text="Latest check:"></TextView><TextView android:layout_height="wrap_content" android:text="01-02-1234" android:id="@+id/LastCheckTime" android:layout_width="fill_parent" android:layout_weight="0.1"></TextView></TableRow></TableLayout>
+
+
+
+<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_below="@+id/LastCheck" android:id="@+id/Check" android:text="Check Now" android:layout_marginTop="10sp" android:layout_centerHorizontal="true"></Button>
 </RelativeLayout>

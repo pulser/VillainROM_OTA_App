@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.villainrom.otaupdater.activity.UpdateActivity;
+import com.villainrom.otaupdater.activity.TitleActivity;
 
 /**
  * This service accesses the VillainROM servers to discover new updates,
@@ -35,7 +35,7 @@ public class PeriodicCheckService extends Service {
 		super.onCreate();
 		Log.i(TAG, "Starting");
 
-		startForeground(UpdateActivity.NOTIFY_SERVICE_ID, new Notification());
+		startForeground(TitleActivity.NOTIFY_SERVICE_ID, new Notification());
 
 		TimerTask task = new TimerTask() {
 			@Override

@@ -3,16 +3,21 @@
 	package="com.villainrom.otaupdater" android:versionCode="1"
 	android:versionName="1.0">
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
-		<activity android:label="@string/app_name" android:name=".activity.UpdateActivity">
+		<activity android:label="@string/app_name" android:name=".activity.TitleActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-
+		<activity android:name=".activity.SelectUpdateActivity">
+		<intent-filter><action android:name="com.villainrom.otaupdater.SELECT_UPDATE"></action>
+<category android:name="android.intent.category.DEFAULT"></category>
+</intent-filter>
+</activity>
+		
 		<service android:name=".service.PeriodicCheckService">
 			<intent-filter>
-				<action android:name="com.villainrom.otaupdate.PERIODIC_CHECK"></action>
+				<action android:name="com.villainrom.otaupdater.PERIODIC_CHECK"></action>
 				<category android:name="android.intent.category.DEFAULT"></category>
 			</intent-filter>
 		</service>
@@ -25,11 +30,14 @@
 		
 		<receiver android:name=".receiver.CheckReceiver">
 			<intent-filter>
-				<action android:name="android.intent.action.CHECK"></action>
-			</intent-filter>
+				<action android:name="com.villainrom.otaupdater.CHECK"></action>
+			<category android:name="android.intent.category.DEFAULT"></category>
+</intent-filter>
 		</receiver>
-	</application>
+	
+</application>
 	<uses-sdk android:minSdkVersion="7" />
 
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+<uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest> 
