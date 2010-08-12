@@ -1,5 +1,6 @@
 package com.villainrom.otaupdater.service;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +14,8 @@ import com.villainrom.otaupdater.activity.UpdateActivity;
 
 /**
  * This service accesses the VillainROM servers to discover new updates,
- * and informs the user when new updates are found.
+ * and informs the user when new updates are found. It reschedules itself
+ * once per day.
  * 
  * @author alankila
  */
@@ -34,13 +36,17 @@ public class PeriodicCheckService extends Service {
 		Log.i(TAG, "Starting");
 
 		startForeground(UpdateActivity.NOTIFY_SERVICE_ID, new Notification());
-		timer = new Timer();
-		timer.schedule(new TimerTask() {
+
+		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
 				sendBroadcast(new Intent("com.villainrom.otaupdater.CHECK"));
 			}
-		}, 86400 * 1000);
+		};
+		task.run();
+		
+		timer = new Timer();
+		timer.scheduleAtFixedRate(task, Calendar.getInstance().getTime(), 86400 * 1000);
 	}
 
 	@Override
