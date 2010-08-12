@@ -1,8 +1,11 @@
 package com.villainrom.otaupdater.utility;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -35,6 +38,8 @@ public class CheckSignature {
 	 * @throws SecurityException
 	 */
 	public void validateZip(File jarFile) throws IOException, SecurityException {
+		byte[] buf = new byte[4096];
+
 		JarFile jar = new JarFile(jarFile);
 		Enumeration<JarEntry> entries = jar.entries();
 		while (entries.hasMoreElements()) {
@@ -50,19 +55,21 @@ public class CheckSignature {
 			
 			/* The exceptions that don't need to be signed either. */
 			String name = je.getName();
-			if (name.equals("/META-INF/CERT.RSA")) {
+			if (name.equals("META-INF/MANIFEST.MF") || name.equals("META-INF/CERT.SF") || name.equals("META-INF/CERT.RSA")) {
 				continue;
 			}
 
 			/* Read one byte -- this is apparently necessary to cause validation. (CHECK) */
-			jar.getInputStream(je).read();
+			InputStream entryFile = jar.getInputStream(je);
+			while (entryFile.read(buf) > 0) {
+			}
 
 			/* Validate that we trust the certificate used to sign the file. */
 			Certificate[] certs = je.getCertificates();
 			try {
 				validateCertificate(certs);
 			} catch (SecurityException e) {
-				throw new SecurityException("Signature failed on: " + name, e);
+				throw new SecurityException("Failed to validate: " + name, e);
 			}
 		}
 	}
@@ -71,21 +78,31 @@ public class CheckSignature {
 	 * We don't do chain-of-trust stuff here. It's either signed by
 	 * just 1 certificate, our main certificate, or we throw it into the river.
 	 * 
-	 * @param certs The chain to validate
+	 * @param certificate The chain to validate
 	 * 
 	 * @return true if valid
 	 */
-	private void validateCertificate(Certificate[] certs) throws SecurityException {
-		if (certs == null) {
-			throw new SecurityException("No certificates found");
+	private void validateCertificate(Certificate[] certificate) throws SecurityException {
+		if (certificate == null) {
+			throw new SecurityException("No signer associated in security manifest");
 		}
 
-		if (certs.length != 1) {
-			throw new SecurityException("Only 1 certificate expected, now has: " + certs.length);
+		if (certificate.length != 1) {
+			throw new SecurityException("Only 1 signer expected, now has: " + certificate.length);
 		}
-
-		if (! certs[0].equals(trustAnchor)) {
-			throw new SecurityException("File not signed by our certificate, but by: " + certs[0]);
+		
+		if (! certificate[0].equals(trustAnchor)) {
+			throw new SecurityException("File not signed by our certificate, but by: " + certificate[0]);
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		if (args.length != 2) {
+			System.out.println("Usage: program <x509cert in der> <update.zip>");
+			return;
+		}
+		Certificate x = CertificateFactory.getInstance("X509").generateCertificate(new FileInputStream(new File(args[0])));
+		new CheckSignature(x).validateZip(new File(args[1]));
+		System.out.println("Success!");
 	}
 }
