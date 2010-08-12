@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, UpdateActivity!</string>
     <string name="app_name">VillainROM Updater</string>
+<string name="url">https://villainrom.co.uk/otaupdater/%s.xml</string>
 </resources>

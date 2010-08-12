@@ -1,14 +1,16 @@
 package com.villainrom.otaupdater.activity;
 
-import com.villainrom.otaupdater.R;
-import com.villainrom.otaupdater.R.layout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.villainrom.otaupdater.R;
+
 public class UpdateActivity extends Activity {
-    /** Called when the activity is first created. */
+    public static final int NOTIFY_SERVICE_ID = 1;
+	public static final int NOTIFY_CHECK_FAILED_ID = 2;
+
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
