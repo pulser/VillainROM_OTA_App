@@ -37,7 +37,7 @@ public class CheckReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		Log.i(TAG, "Beginning check.");
 		
-		String urlPattern = context.getString(R.string.url);
+		String urlPattern = context.getString(R.string.manifest_url);
 		String urlString = String.format(urlPattern, System.getProperty("ro.build.version.release"));
 
 		List<Update> updates = new ArrayList<Update>();

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, UpdateActivity!</string>
-    <string name="app_name">VillainROM Updater</string>
-<string name="url">https://villainrom.co.uk/otaupdater/%s.xml</string>
+	<string name="app_name">VillainROM Updater</string>
+	<string name="manifest_url">http://bel.fi/~alankila/%s.xml</string>
+	<string name="path_applied_updates">/system/otaupdater</string>
+	<string name="path_download_to">/cache/otaupdater</string>
+	<string name="path_recovery_command">/cache/recovery/command</string>
 </resources>
