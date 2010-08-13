@@ -95,7 +95,7 @@ public class SelectUpdateActivity extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent("com.villainrom.otaupdater.APPLY");
 				intent.putExtra("update", chosenUpdate);
-				sendBroadcast(intent);
+				startActivity(intent);
 			}
         });
     }

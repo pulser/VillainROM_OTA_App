@@ -16,6 +16,12 @@
 				<category android:name="android.intent.category.DEFAULT"></category>
 			</intent-filter>
 		</activity>
+		<activity android:name=".activity.ApplyActivity">
+			<intent-filter>
+				<action android:name="com.villainrom.otaupdater.APPLY"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</activity>
 
 		<service android:name=".service.PeriodicCheckService">
 			<intent-filter>
