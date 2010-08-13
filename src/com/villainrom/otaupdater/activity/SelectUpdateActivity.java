@@ -88,7 +88,7 @@ public class SelectUpdateActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
         });
-        update.setAdapter(new ArrayAdapter<Update>(this, android.R.layout.simple_dropdown_item_1line, updateList));
+        update.setAdapter(new ArrayAdapter<Update>(this, android.R.layout.simple_spinner_item, updateList));
         
         apply.setOnClickListener(new OnClickListener() {
 			@Override
