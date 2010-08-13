@@ -61,28 +61,11 @@ public class CheckReceiver extends BroadcastReceiver {
 			InputStream is = c.getInputStream();
 			
 			Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is);
-			NodeList nl = doc.getElementsByTagName("update");
-			for (int i = 0; i < nl.getLength(); i ++) {				
-				Node n = nl.item(i);
-				if (! (n instanceof Element)) {
-					continue;
-				}
-
-				Update u = new Update();
-				
-				String attribute = n.getNodeName();
-				if ("name".equals(attribute)
-						|| "description".equals(attribute)
-						|| "url".equals(attribute)) {
-					Update.class.getField(attribute).set(u, n.getNodeValue());
-					continue;
-				}
-					
-				if ("dependencies".equals(attribute)) {
-					putDependencies(n, u);
-				}
-				
-				updates.add(u);
+			Element docElement = doc.getDocumentElement();
+			if (docElement.getNodeName().equals("updates")) {
+				handleUpdates(updates, docElement);
+			} else {
+				throw new Exception("Unknown top-level element: " + docElement.getNodeName());
 			}
 		}
 		catch (Exception e) {
@@ -108,10 +91,61 @@ public class CheckReceiver extends BroadcastReceiver {
 		context.startActivity(foundUpdates);
 	}
 
-	private static void putDependencies(Node node, Update u) {
-		NodeList nl = ((Element) node).getElementsByTagName("update");
+
+	private static void handleUpdates(List<Update> updates, Element rootElement) throws Exception {
+		NodeList nl = rootElement.getChildNodes();
+		for (int i = 0; i < nl.getLength(); i ++) {				
+			Node node = nl.item(i);
+			if (! (node instanceof Element)) {
+				continue;
+			}
+		
+			Element element = (Element) node;
+			if (element.getNodeName().equals("update")) {
+				Update update = new Update();
+				handleUpdate(update, element);
+				updates.add(update);
+			} else {
+				throw new Exception("Unknown child of updates: " + element.getNodeName());
+			}
+		}
+	}
+
+	private static void handleUpdate(Update update, Element updateElement) throws Exception {
+		NodeList nl = updateElement.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i ++) {
-			u.dependencyUpdateNames.add(nl.item(i).getNodeValue());
+			Node node = nl.item(i);
+			if (! (node instanceof Element)) {
+				continue;
+			}
+
+			String attribute = node.getNodeName();
+			if ("name".equals(attribute)
+					|| "description".equals(attribute)
+					|| "url".equals(attribute)) {
+				Update.class.getField(attribute).set(update, node.getNodeValue());
+				continue;
+			} else if ("dependencies".equals(attribute)) {
+				handleUpdateDependencies(update, (Element) node);
+			} else {
+				throw new Exception("Update file contains unhandled element: " + node.getNodeName());
+			}
+		}
+	}
+		
+	private static void handleUpdateDependencies(Update u, Element element) throws Exception {
+		NodeList nl = element.getElementsByTagName("update");
+		for (int i = 0; i < nl.getLength(); i ++) {
+			Node node = nl.item(i);
+			if (! (node instanceof Element)) {
+				continue;
+			}
+			
+			if ("update".equals(node.getNodeName())) {
+				u.dependencyUpdateNames.add(node.getNodeValue());
+			} else {
+				throw new Exception("Dependencies contains unhandled element: " + node.getNodeName());
+			}
 		}
 	}
 }
