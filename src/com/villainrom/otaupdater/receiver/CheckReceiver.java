@@ -1,6 +1,7 @@
 package com.villainrom.otaupdater.receiver;
 
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -33,12 +34,23 @@ import com.villainrom.otaupdater.utility.Update;
 public class CheckReceiver extends BroadcastReceiver {	
 	private static final String TAG = CheckReceiver.class.getSimpleName();
 
+	/* so they {@hide} android.os.SystemProperties. Fuck them. */
+	private String getSystemProperty(String name) {
+		try {
+			Class<?> c = Class.forName("android.os.SystemProperties");
+			Method m = c.getMethod("get", String.class);
+			return (String) m.invoke(null, name);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		Log.i(TAG, "Beginning check.");
 		
 		String urlPattern = context.getString(R.string.manifest_url);
-		String urlString = String.format(urlPattern, System.getProperty("ro.build.version.release"));
+		String urlString = String.format(urlPattern, getSystemProperty("ro.build.version.release"));
 
 		List<Update> updates = new ArrayList<Update>();
 		
@@ -73,11 +85,10 @@ public class CheckReceiver extends BroadcastReceiver {
 				updates.add(u);
 			}
 			
-			if (updates.size() != 0) {
-				Intent foundUpdates = new Intent("com.villainrom.otaupdater.SELECT_UPDATE");
-				foundUpdates.putExtra("update", updates.toArray(new Update[updates.size()]));
-				context.sendBroadcast(foundUpdates);
-			}
+			Log.i(TAG, "Found updates: " + updates.size());
+			Intent foundUpdates = new Intent("com.villainrom.otaupdater.SELECT_UPDATE");
+			foundUpdates.putExtra("update", updates.toArray(new Update[updates.size()]));
+			context.sendBroadcast(foundUpdates);
 		}
 		catch (Exception e) {
 			Log.e(TAG, "Error fetching update", e);
@@ -92,8 +103,6 @@ public class CheckReceiver extends BroadcastReceiver {
 			notification.setLatestEventInfo(context, "Exception", e.getMessage(), PendingIntent.getActivity(context, 0, new Intent("com.villainrom.otaupdater.MAIN"), 0));
 			nm.notify(TitleActivity.NOTIFY_CHECK_FAILED_ID, notification);
 		}
-		
-		Log.i(TAG, "Check completed.");
 	}
 
 	private static void putDependencies(Node node, Update u) {

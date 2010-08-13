@@ -27,13 +27,14 @@ where each update contains
 /url            url to download the update from
 /dependencies?  list of dependencies
 
-where each dependency contains
+where each dependencies contains
 
 /update         name of update that must be applied first.
 
 Complete example file:
 
-<updatess>
+<?xml version="1.0" encoding="UTF-8"?>
+<updates>
   <update>
     <name>Update1.zip</name>
     <description>
@@ -59,6 +60,20 @@ only be installed after Update1.zip has been installed.
 Description of the application UI
 =================================
 
+Title screen
+------------
+
+[ Logo ]
+
+Last checked: dd-mm-yyyy
+Check status: Success/Failure
+
+[ Check now ]
+
+
+Update selection screen
+-----------------------
+
 [ Name of update ]  [ Apply ]
 
 [ long textarea description ]
@@ -73,25 +88,40 @@ disabled. In that case, the description will be modified by the application,
 and the list of the updates that must be applied first will be prepended to
 the real desctiprion of the update.
 
+
+Update download/apply screen
+----------------------------
+
+<update name here >
+
+[====>   35%       ]
+
+[ Abort ] [ Apply ]
+
+Downloads are written to /cache/otaupdater. Once apply button is pressed,
+application leaves instructions for recovery to apply the update, and
+reboots into recovery; or applies the update immediately without taking
+the phone offline.
+
+
 Update file format
 ==================
 
 We support two kinds of update formats:
 
-- *.zip is the classic com.google.android.update-script
-  based update, and is applied via reboot to recovery.
+*.zip is the classic com.google.android.update-script
+based update, and is applied via reboot to recovery.
 
-- *.ota is a zip package which contains instructions
-  on how to apply it online. The zip is decompressed
-  somewhere, and the package structure contains a
-  update.sh at its root, which gets executed.
+*.ota is a zip package which contains instructions
+on how to apply it online. The zip is decompressed
+somewhere, and the package structure contains a
+similar update-script at its root, which gets executed.
 
-  If the update.sh exits with return code 0, it
-  has been successfully applied. Any other return
-  code means failure. For this reason, update scripts
-  should preferably start with "set -e" to make them
-  abort on first error.
+The update-script is evaluated by a java code, and
+will be extended to support the commands required to
+apply updates. Typically these are probably copy_dir,
+chmod and delete.
 
-- After updates have been applied, the log of applied
-  updates will be permanently stored in /system/otaupdate
-  directory.
+After updates have been applied, the log of applied
+updates will be permanently stored in /system/otaupdater
+directory.
