@@ -123,7 +123,8 @@ public class CheckReceiver extends BroadcastReceiver {
 			if ("name".equals(attribute)
 					|| "description".equals(attribute)
 					|| "url".equals(attribute)) {
-				Update.class.getField(attribute).set(update, node.getNodeValue());
+				String value = node.getFirstChild().getNodeValue().trim();
+				Update.class.getField(attribute).set(update, value);
 				continue;
 			} else if ("dependencies".equals(attribute)) {
 				handleUpdateDependencies(update, (Element) node);
@@ -142,7 +143,8 @@ public class CheckReceiver extends BroadcastReceiver {
 			}
 			
 			if ("update".equals(node.getNodeName())) {
-				u.dependencyUpdateNames.add(node.getNodeValue());
+				String value = node.getFirstChild().getNodeValue().trim();
+				u.dependencyUpdateNames.add(value);
 			} else {
 				throw new Exception("Dependencies contains unhandled element: " + node.getNodeName());
 			}

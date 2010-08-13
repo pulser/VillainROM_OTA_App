@@ -46,4 +46,9 @@ public class Update implements Parcelable {
     	url = in.readString();
     	in.readStringList(dependencyUpdateNames);
     }
+    
+    @Override
+    public String toString() {
+    	return name;
+    }
 }
