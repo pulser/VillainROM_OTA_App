@@ -23,10 +23,14 @@ public class UpdateManager {
 	}
 
 	public List<String> getAppliedUpdates() {
-		File[] list = new File(appliedUpdatesPath).listFiles();
 		List<String> files = new ArrayList<String>();
-		for (File f : list) {
-			files.add(f.getName());
+
+		/* might not exist yet. */
+		File[] list = new File(appliedUpdatesPath).listFiles();
+		if (list != null) {
+			for (File f : list) {
+				files.add(f.getName());
+			}
 		}
 		return files;
 	}
@@ -35,6 +39,7 @@ public class UpdateManager {
 		PrintWriter f = new PrintWriter(new FileOutputStream(new File(recoveryCommandPath)));
 		String commands = "";
 		commands += "apply " + updateLocationPath + "/" + update + "\n";
+		commands += "make_dir " + appliedUpdatesPath + "\n";
 		commands += "touch " + appliedUpdatesPath + "/" + update + "\n";
 		f.print(commands);
 		f.close();

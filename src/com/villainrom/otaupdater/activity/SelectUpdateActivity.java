@@ -1,7 +1,6 @@
 package com.villainrom.otaupdater.activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +8,7 @@ import java.util.Set;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -41,8 +41,13 @@ public class SelectUpdateActivity extends Activity {
         
 		alreadyAppliedUpdates = new HashSet<String>(updateManager.getAppliedUpdates());
 
+		/* Turn this Parcelable[] WTF to Update list. */
+		updateList = new ArrayList<Update>();
+		for (Parcelable p : getIntent().getParcelableArrayExtra("update")) {
+			updateList.add((Update) p);
+		}
+		
 		/* Clean the update list for already applied updates. */
-        updateList = Arrays.asList((Update[]) getIntent().getParcelableArrayExtra("update"));
 		for (Update candidateUpdate : new ArrayList<Update>(updateList)) {
 			if (alreadyAppliedUpdates.contains(candidateUpdate.name)) {
 				updateList.remove(candidateUpdate);

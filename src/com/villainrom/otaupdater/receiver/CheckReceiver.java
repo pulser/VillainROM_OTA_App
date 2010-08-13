@@ -84,11 +84,6 @@ public class CheckReceiver extends BroadcastReceiver {
 				
 				updates.add(u);
 			}
-			
-			Log.i(TAG, "Found updates: " + updates.size());
-			Intent foundUpdates = new Intent("com.villainrom.otaupdater.SELECT_UPDATE");
-			foundUpdates.putExtra("update", updates.toArray(new Update[updates.size()]));
-			context.sendBroadcast(foundUpdates);
 		}
 		catch (Exception e) {
 			Log.e(TAG, "Error fetching update", e);
@@ -102,7 +97,15 @@ public class CheckReceiver extends BroadcastReceiver {
 			notification.flags |= Notification.FLAG_AUTO_CANCEL;
 			notification.setLatestEventInfo(context, "Exception", e.getMessage(), PendingIntent.getActivity(context, 0, new Intent("com.villainrom.otaupdater.MAIN"), 0));
 			nm.notify(TitleActivity.NOTIFY_CHECK_FAILED_ID, notification);
+			return;
 		}
+
+		Log.i(TAG, "Found updates: " + updates.size());
+		
+		Intent foundUpdates = new Intent("com.villainrom.otaupdater.SELECT_UPDATE");
+		foundUpdates.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		foundUpdates.putExtra("update", updates.toArray(new Update[updates.size()]));
+		context.startActivity(foundUpdates);
 	}
 
 	private static void putDependencies(Node node, Update u) {

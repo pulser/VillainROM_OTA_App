@@ -3,18 +3,14 @@
 	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
 	android:padding="4sp">
 
-	<Spinner android:layout_alignParentLeft="true"
-		android:layout_height="wrap_content" android:id="@+id/Update"
+	<Spinner android:layout_height="wrap_content" android:id="@+id/Update"
 		android:layout_width="fill_parent" android:layout_toLeftOf="@+id/Apply">
 	</Spinner>
 	<Button android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:text="Apply" android:id="@+id/Apply"
-		android:layout_alignParentRight="true">
+		android:layout_height="wrap_content" android:text="Apply" android:id="@+id/Apply" android:layout_alignParentRight="true">
 	</Button>
-	<TextView android:layout_alignParentLeft="true"
-		android:layout_height="fill_parent" android:layout_width="fill_parent"
-		android:id="@+id/Description" android:text="Desctiprion of update here"
-		android:layout_below="@+id/update" android:padding="4sp">
+	<TextView android:layout_height="fill_parent" android:layout_width="fill_parent"
+		android:id="@+id/Description" android:padding="4sp" android:layout_below="@+id/Update" android:text="Description of update here">
 	</TextView>
 
 </RelativeLayout>
