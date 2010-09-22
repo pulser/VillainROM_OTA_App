@@ -23,13 +23,13 @@ import com.villainrom.otaupdater.utility.Update;
 import com.villainrom.otaupdater.utility.UpdateManager;
 
 public class SelectUpdateActivity extends Activity {
-	private UpdateManager updateManager;
+	protected UpdateManager updateManager;
 	
-	private Set<String> alreadyAppliedUpdates;
+	protected Set<String> alreadyAppliedUpdates;
 	
-	private List<Update> updateList;
+	protected List<Update> updateList;
 	
-	private Update chosenUpdate;
+	protected Update chosenUpdate;
 	
 	/** Called when the activity is first created. */
     @Override

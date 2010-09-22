@@ -40,7 +40,7 @@ public class Update implements Parcelable {
         }
     };
     
-    private Update(Parcel in) {
+    protected Update(Parcel in) {
     	name = in.readString();
     	description = in.readString();
     	url = in.readString();

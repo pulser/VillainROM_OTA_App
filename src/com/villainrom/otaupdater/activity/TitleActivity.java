@@ -12,7 +12,7 @@ import android.widget.Button;
 import com.villainrom.otaupdater.R;
 
 public class TitleActivity extends Activity {
-	private static final String TAG = TitleActivity.class.getSimpleName();
+	protected static final String TAG = TitleActivity.class.getSimpleName();
 
 	public static final int NOTIFY_SERVICE_ID = 1;
 	public static final int NOTIFY_CHECK_FAILED_ID = 2;
